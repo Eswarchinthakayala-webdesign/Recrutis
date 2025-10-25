@@ -167,7 +167,10 @@ const PostJob = () => {
           render={({ field }) => (
             <div data-color-mode={theme === "dark" ? "dark" : "light"}>
               <div className="wmde-markdown-var"> </div>
-            <MDEditor value={field.value} onChange={field.onChange}
+            <MDEditor value={field.value}
+            
+            data-color-mode={theme === "dark" ? "dark" : "light"}
+            onChange={field.onChange}
                         />
             </div>
                         

@@ -4,6 +4,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import { BarLoader } from "react-spinners";
 import useFetch from "../../hooks/use-fetch";
+import TextShimmer from "../components/text-shimmer";
 
 const SavedJobs = () => {
   const { isLoaded } = useUser();
@@ -26,10 +27,10 @@ const SavedJobs = () => {
   }
 
   return (
-    <div>
-      <h1 className="gradient-title font-extrabold text-6xl sm:text-7xl text-center pb-8">
+    <div className="px-4">
+      <TextShimmer className=" font-extrabold text-6xl sm:text-7xl flex items-center justify-center pb-8">
         Saved Jobs
-      </h1>
+      </TextShimmer>
 
       {loadingSavedJobs === false && (
         <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
