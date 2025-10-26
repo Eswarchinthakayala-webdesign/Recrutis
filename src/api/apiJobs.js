@@ -1,3 +1,4 @@
+import { da } from "zod/v4/locales";
 import supabaseClient from "../../utils/supabase";
 
 supabaseClient
@@ -41,6 +42,8 @@ export async function getSavedJobs(token) {
     console.error("Error fetching Saved Jobs:", error);
     return null;
   }
+
+  console.log(data)
 
   return data;
 }

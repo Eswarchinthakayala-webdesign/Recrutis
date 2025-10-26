@@ -12,6 +12,7 @@ import SaveJobsPage from './pages/saveJobs'
 import MyJobsPage from './pages/myJobs'
 import { ThemeProvider } from './components/theme-provider'
 import ProtectedRoute from './components/protected-route'
+import JobAnalytics from './pages/JobAnalytics'
  const router=createBrowserRouter([
 
   {
@@ -61,6 +62,13 @@ import ProtectedRoute from './components/protected-route'
       element:
       <ProtectedRoute>
       <MyJobsPage/>
+      </ProtectedRoute>
+      },
+       {
+      path:'/job-analytics',
+      element:
+      <ProtectedRoute>
+      <JobAnalytics/>
       </ProtectedRoute>
       }
 

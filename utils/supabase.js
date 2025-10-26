@@ -1,15 +1,18 @@
+// utils/supabase.js
 import { createClient } from "@supabase/supabase-js";
 
 export const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const supabaseClient = async (supabaseAccessToken) => {
-  const supabase = createClient(supabaseUrl, supabaseKey, {
-    global: { headers: { Authorization: `Bearer ${supabaseAccessToken}` } },
+export default async function supabaseClient(accessToken) {
+  // if accessToken is missing or invalid, fallback to anon key
+  const isValidJwt = accessToken && accessToken.split(".").length === 3;
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    global: isValidJwt
+      ? { headers: { Authorization: `Bearer ${accessToken}` } }
+      : {},
   });
-  // set Supabase JWT on the client object,
-  // so it is sent up with all Supabase requests
-  return supabase;
-};
 
-export default supabaseClient;
+  return supabase;
+}

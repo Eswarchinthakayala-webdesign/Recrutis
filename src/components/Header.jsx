@@ -23,13 +23,21 @@ const Header = () => {
   // Determine if dark mode is active
   const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   // Check URL params to open modal automatically
-  useEffect(() => {
-    const param = search.get("auth"); // ?auth=sign-in or ?auth=sign-up
-    if (param === "sign-in" || param === "sign-up") {
-      setMode(param);
-      setShowModal(true);
-    }
-  }, [search]);
+useEffect(() => {
+  // Support both ?auth=sign-in and ?sign-in=true patterns
+  const authParam = search.get("auth");
+  const signInParam = search.get("sign-in");
+  const signUpParam = search.get("sign-up");
+
+  if (authParam === "sign-in" || signInParam === "true") {
+    setMode("sign-in");
+    setShowModal(true);
+  } else if (authParam === "sign-up" || signUpParam === "true") {
+    setMode("sign-up");
+    setShowModal(true);
+  }
+}, [search]);
+
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
