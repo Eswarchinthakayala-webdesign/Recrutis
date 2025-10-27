@@ -2,6 +2,7 @@ import CreatedApplications from "@/components/created-applications";
 import CreatedJobs from "@/components/created-jobs";
 import { useUser } from "@clerk/clerk-react";
 import { BarLoader } from "react-spinners";
+import TextShimmer from "../components/text-shimmer";
 
 const MyJobs = () => {
   const { user, isLoaded } = useUser();
@@ -12,11 +13,11 @@ const MyJobs = () => {
 
   return (
     <div className="overflow-hidden">
-      <h1 className="gradient-title font-extrabold text-5xl sm:text-7xl text-center pb-8">
+      <TextShimmer className="px-1 gradient-title font-extrabold text-4xl sm:text-7xl flex items-center justify-center pb-8">
         {user?.unsafeMetadata?.role === "candidate"
           ? "My Applications"
-          : "My Jobs"}
-      </h1>
+          : ""}
+      </TextShimmer>
       {user?.unsafeMetadata?.role === "candidate" ? (
         <CreatedApplications />
       ) : (

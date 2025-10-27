@@ -491,7 +491,28 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                               <CartesianGrid strokeDasharray="3 3" />
                               <XAxis dataKey="date" tick={{ fontSize: 11 }} />
                               <YAxis />
-                              <Tooltip />
+                                             <Tooltip
+  contentStyle={{
+    backgroundColor: "rgba(24,24,27,0.9)", // dark zinc overlay
+    border: "1px solid rgba(113,113,122,0.4)", // subtle zinc border
+    borderRadius: "0.75rem",
+    backdropFilter: "blur(8px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+    color: "#e4e4e7",
+    fontSize: "0.875rem",
+    padding: "0.5rem 0.75rem",
+  }}
+  itemStyle={{
+    color: "#f4f4f5", // text color
+    textTransform: "capitalize",
+  }}
+  labelStyle={{
+    color: "#a1a1aa",
+    fontWeight: "500",
+    marginBottom: "0.25rem",
+  }}
+  cursor={{ fill: "rgba(113,113,122,0.2)" }}
+/>
                               <Area type="monotone" dataKey="count" stroke={colors[2]} fill="url(#areaGrad1)" />
                             </AreaChart>
                           </ResponsiveContainer>
@@ -509,7 +530,28 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                               <CartesianGrid strokeDasharray="3 3" />
                               <XAxis dataKey="status" />
                               <YAxis />
-                              <Tooltip />
+                                            <Tooltip
+  contentStyle={{
+    backgroundColor: "rgba(24,24,27,0.9)", // dark zinc overlay
+    border: "1px solid rgba(113,113,122,0.4)", // subtle zinc border
+    borderRadius: "0.75rem",
+    backdropFilter: "blur(8px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+    color: "#e4e4e7",
+    fontSize: "0.875rem",
+    padding: "0.5rem 0.75rem",
+  }}
+  itemStyle={{
+    color: "#f4f4f5", // text color
+    textTransform: "capitalize",
+  }}
+  labelStyle={{
+    color: "#a1a1aa",
+    fontWeight: "500",
+    marginBottom: "0.25rem",
+  }}
+  cursor={{ fill: "rgba(113,113,122,0.2)" }}
+/>
                               <Line type="monotone" dataKey="count" stroke={colors[3] || colors[2]} strokeWidth={3} />
                             </LineChart>
                           </ResponsiveContainer>
@@ -529,7 +571,28 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                                   <Cell key={`cell-${idx}`} fill={colors[idx % colors.length]} />
                                 ))}
                               </Pie>
-                              <Tooltip />
+                                            <Tooltip
+  contentStyle={{
+    backgroundColor: "rgba(24,24,27,0.9)", // dark zinc overlay
+    border: "1px solid rgba(113,113,122,0.4)", // subtle zinc border
+    borderRadius: "0.75rem",
+    backdropFilter: "blur(8px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+    color: "#e4e4e7",
+    fontSize: "0.875rem",
+    padding: "0.5rem 0.75rem",
+  }}
+  itemStyle={{
+    color: "#f4f4f5", // text color
+    textTransform: "capitalize",
+  }}
+  labelStyle={{
+    color: "#a1a1aa",
+    fontWeight: "500",
+    marginBottom: "0.25rem",
+  }}
+  cursor={{ fill: "rgba(113,113,122,0.2)" }}
+/>
                               <Legend verticalAlign="bottom" height={36} />
                             </PieChart>
                           </ResponsiveContainer>
@@ -553,7 +616,28 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                               <CartesianGrid strokeDasharray="3 3" />
                               <XAxis dataKey="range" />
                               <YAxis />
-                              <Tooltip />
+                                            <Tooltip
+  contentStyle={{
+    backgroundColor: "rgba(24,24,27,0.9)", // dark zinc overlay
+    border: "1px solid rgba(113,113,122,0.4)", // subtle zinc border
+    borderRadius: "0.75rem",
+    backdropFilter: "blur(8px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+    color: "#e4e4e7",
+    fontSize: "0.875rem",
+    padding: "0.5rem 0.75rem",
+  }}
+  itemStyle={{
+    color: "#f4f4f5", // text color
+    textTransform: "capitalize",
+  }}
+  labelStyle={{
+    color: "#a1a1aa",
+    fontWeight: "500",
+    marginBottom: "0.25rem",
+  }}
+  cursor={{ fill: "rgba(113,113,122,0.2)" }}
+/>
                               <Bar dataKey="count" barSize={18} fill={colors[1]} />
                               <Line type="monotone" dataKey="count" stroke={colors[2]} strokeDasharray="4 4" dot />
                             </ComposedChart>
@@ -571,7 +655,28 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                               <CartesianGrid strokeDasharray="3 3" />
                               <XAxis dataKey="date" />
                               <YAxis />
-                              <Tooltip />
+                                           <Tooltip
+  contentStyle={{
+    backgroundColor: "rgba(24,24,27,0.9)", // dark zinc overlay
+    border: "1px solid rgba(113,113,122,0.4)", // subtle zinc border
+    borderRadius: "0.75rem",
+    backdropFilter: "blur(8px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+    color: "#e4e4e7",
+    fontSize: "0.875rem",
+    padding: "0.5rem 0.75rem",
+  }}
+  itemStyle={{
+    color: "#f4f4f5", // text color
+    textTransform: "capitalize",
+  }}
+  labelStyle={{
+    color: "#a1a1aa",
+    fontWeight: "500",
+    marginBottom: "0.25rem",
+  }}
+  cursor={{ fill: "rgba(113,113,122,0.2)" }}
+/>
                               <Line type="monotone" dataKey="count" stroke={colors[0]} strokeDasharray="3 4" dot />
                             </LineChart>
                           </ResponsiveContainer>
@@ -593,7 +698,28 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                           <BarChart data={charts.skillSeries} layout="vertical" margin={{ left: 20 }}>
                             <XAxis type="number" />
                             <YAxis type="category" dataKey="skill" width={140} />
-                            <Tooltip />
+                                         <Tooltip
+  contentStyle={{
+    backgroundColor: "rgba(24,24,27,0.9)", // dark zinc overlay
+    border: "1px solid rgba(113,113,122,0.4)", // subtle zinc border
+    borderRadius: "0.75rem",
+    backdropFilter: "blur(8px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+    color: "#e4e4e7",
+    fontSize: "0.875rem",
+    padding: "0.5rem 0.75rem",
+  }}
+  itemStyle={{
+    color: "#f4f4f5", // text color
+    textTransform: "capitalize",
+  }}
+  labelStyle={{
+    color: "#a1a1aa",
+    fontWeight: "500",
+    marginBottom: "0.25rem",
+  }}
+  cursor={{ fill: "rgba(113,113,122,0.2)" }}
+/>
                             <Bar dataKey="count" fill={colors[2]} />
                           </BarChart>
                         </ResponsiveContainer>

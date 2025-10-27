@@ -193,7 +193,7 @@ const JobListing = () => {
   }
 
   return (
-    <div className="px-4 pb-10">
+    <div className="px-4 pb-10 overflow-hidden">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <TextShimmer className="font-extrabold text-5xl sm:text-6xl pb-4 text-center sm:text-left">
           Job Portal

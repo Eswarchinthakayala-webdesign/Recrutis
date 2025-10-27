@@ -90,7 +90,7 @@ const PostJob = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="px-4">
+    <div className="px-4 overflow-hidden">
       <TextShimmer className="gradient-title font-extrabold text-5xl sm:text-7xl flex items-center justify-center pb-8">
         Post a Job
       </TextShimmer>
