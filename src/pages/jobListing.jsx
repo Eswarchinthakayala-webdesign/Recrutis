@@ -52,6 +52,7 @@ import {
   Legend,
 } from "recharts";
 import { getApplications } from "../api/apiApplications";
+import JobSearchBar from "../components/JobSearchBar";
 
 // 🎨 Color palettes (20 themes like shadcn)
 const COLOR_THEMES = {
@@ -194,8 +195,8 @@ const JobListing = () => {
 
   return (
     <div className="px-4 pb-10 overflow-hidden">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-        <TextShimmer className="font-extrabold text-5xl sm:text-6xl pb-4 text-center sm:text-left">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center  mb-6">
+        <TextShimmer className="font-extrabold text-4xl sm:text-6xl pb-4 text-center sm:text-left">
           Job Portal
         </TextShimmer>
 
@@ -266,20 +267,10 @@ const JobListing = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           >
-          <form
-            onSubmit={handleSearch}
-            className="h-14 flex flex-row w-full gap-2 items-center mb-3"
-          >
-            <Input
-              type="text"
-              placeholder="Search Jobs by Title..."
-              name="search-query"
-              className="h-full flex-1 px-4 text-md"
-            />
-            <Button type="submit" className="h-full sm:w-28 cursor-pointer">
-              Search
-            </Button>
-          </form>
+         <JobSearchBar
+          jobs={jobs} // your job data
+          onSearch={(query) => setSearchQuery(query)}
+        />
 
           <div className="flex flex-row gap-2">
             <Select value={location} onValueChange={(v) => setLocation(v)}>
@@ -360,7 +351,7 @@ const JobListing = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"
         >
           {/* 1️⃣ Jobs by Location */}
                     <div className="bg-gradient-to-br 

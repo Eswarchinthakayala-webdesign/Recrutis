@@ -8,13 +8,11 @@ const AppLayout
     <div>
         
         <div className='grid-background'></div>
-        <main className='min-h-screen max-w-7xl mx-auto'>
+        <main className='min-h-screen max-w-7xl pb-10 sm:pb-1 mx-auto'>
             <Header/>
             <Outlet/>
         </main>
-        <div className='p-10 text-center text-zinc-400 bg-gray-200 dark:bg-gray-800 mt-10'>
-            Made with ❤️ by Eswar
-        </div>
+        
     </div>
   )
 }

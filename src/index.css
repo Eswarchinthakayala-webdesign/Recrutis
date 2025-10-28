@@ -162,3 +162,103 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* =========================================================
+   ✦ Global Custom Scrollbar (Light + Dark Theme)
+   Works for entire page (html, body) and all scrollable divs
+   ========================================================= */
+
+:root {
+  /* Light Theme Colors */
+  --scrollbar-track-light: #f1f3f5;
+  --scrollbar-thumb-light: #c1c7cd;
+  --scrollbar-thumb-hover-light: #a0a7ad;
+
+  /* Dark Theme Colors */
+  --scrollbar-track-dark: #0c0c0e;
+  --scrollbar-thumb-dark: #2b2c2f;
+  --scrollbar-thumb-hover-dark: #3b3c3f;
+}
+
+/* ================================
+   Global Scrollbar – Light Mode
+   ================================ */
+html,
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-light) var(--scrollbar-track-light);
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-light);
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-light);
+  border-radius: 12px;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-light);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Apply the same to all scrollable elements */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-light);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-light);
+  border-radius: 12px;
+}
+
+/* ================================
+   🌙 Dark Mode Scrollbar
+   (Activated when .dark is on <html> or <body>)
+   ================================ */
+.dark html,
+.dark body {
+  scrollbar-color: var(--scrollbar-thumb-dark) var(--scrollbar-track-dark);
+}
+
+.dark html::-webkit-scrollbar-track,
+.dark body::-webkit-scrollbar-track,
+.dark *::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-dark);
+}
+
+.dark html::-webkit-scrollbar-thumb,
+.dark body::-webkit-scrollbar-thumb,
+.dark *::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-dark);
+}
+
+.dark html::-webkit-scrollbar-thumb:hover,
+.dark body::-webkit-scrollbar-thumb:hover,
+.dark *::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-dark);
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.08);
+}
+
+/* ================================
+   ✨ Smooth Scrolling
+   ================================ */
+html {
+  scroll-behavior: smooth;
+}

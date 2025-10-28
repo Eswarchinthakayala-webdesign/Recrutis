@@ -1,7 +1,7 @@
 // src/pages/CreatedJobs.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
-import { BarLoader } from "react-spinners";
+import { BarLoader, HashLoader } from "react-spinners";
 import {
   Search,
   Briefcase,
@@ -119,7 +119,7 @@ const CreatedJobs = () => {
       </div>
 
       {/* Filters and search */}
-      <Card className="p-4">
+      <Card className="p-4 bg-gray-50 dark:bg-gray-950/60 dark:border-gray-100/25 ">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Search bar */}
           <div className="relative w-full md:w-1/3">
@@ -175,7 +175,10 @@ const CreatedJobs = () => {
 
       {/* Jobs grid */}
       {loadingCreatedJobs ? (
-        <BarLoader className="mt-4" width={"100%"} color="#36d7b7" />
+      <div className="flex items-center justify-center h-[50vh] w-full">
+        <HashLoader size={70} color="#374151" />
+      </div>
+
       ) : filteredJobs?.length ? (
         <div className="mt-6 grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredJobs.map((job) => (

@@ -117,7 +117,7 @@ export function ApplyJobDrawer({ user, job, fetchJob, applied = false }) {
       <DrawerContent
         className={`rounded-t-2xl border-t ${
           isDark
-            ? "bg-gradient-to-br from-gray-900 to-gray-950 text-gray-100 border-gray-900"
+            ? "bg-gradient-to-br from-gray-950 to-gray-950 text-gray-100 border-gray-100/30"
             : "bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 border-gray-300"
         }`}
       >

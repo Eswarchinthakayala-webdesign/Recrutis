@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { BarLoader } from "react-spinners";
+import { BarLoader, HashLoader } from "react-spinners";
 import MDEditor from "@uiw/react-md-editor";
 import { useUser } from "@clerk/clerk-react";
 import {
@@ -16,6 +16,7 @@ import {
   LineChart as LineIcon,
   Palette,
   Activity,
+  CirclePlus,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -121,7 +122,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
       setApplications((job && job.applications) ? job.applications.slice() : []);
     }
   }, [job]);
-  console.log(job)
+  
 
   // refresh helper
   const refreshJob = useCallback(async () => {
@@ -235,7 +236,10 @@ export default function JobPage({ token /* optional: pass if your API needs it *
 
   // Loading guard
   if (!isLoaded || loadingJob || loadingLocal) {
-    return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
+    return  <div className="flex flex-col items-center justify-center h-[60vh]">
+        <HashLoader width={"60%"} color="#374151" />
+        <p className="text-gray-500 mt-3">Loading  data...</p>
+      </div>
   }
 
   if (!localJob) {
@@ -243,14 +247,14 @@ export default function JobPage({ token /* optional: pass if your API needs it *
   }
   const {theme}=useTheme()
   return (
-    <div className="space-y-6 px-4 py-6">
+    <div className="space-y-6 overflow-hidden px-4 pb-10 py-6">
       <Toaster position="top-right" />
 
       {/* header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl md:text-5xl font-extrabold">{localJob.title}</h1>
-          <div className="text-sm text-muted-foreground mt-1">{localJob.company?.name}</div>
+          <h1 className="text-3xl md:text-5xl font-extrabold">{localJob.title ||"Un Titled"}</h1>
+          <div className="text-sm text-muted-foreground mt-1">{localJob.company?.name || "Un named"}</div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -315,7 +319,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
       {/* description & requirements */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-4">
-          <Card>
+          <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
             <CardHeader>
               <CardTitle>About the job</CardTitle>
             </CardHeader>
@@ -324,11 +328,11 @@ export default function JobPage({ token /* optional: pass if your API needs it *
             </CardContent>
           </Card>
 
-          <Card>
+           <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
             <CardHeader>
               <CardTitle>What we are looking for</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="max-h-200 overflow-y-auto">
 
                <div data-color-mode={theme === "dark" ? "dark" : "light"}>
                 <div className="wmde-markdown-var"> </div>
@@ -343,7 +347,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
         </div>
 
         <div className="space-y-4">
-          <Card>
+           <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
             <CardHeader>
               <CardTitle>Quick Info</CardTitle>
             </CardHeader>
@@ -475,7 +479,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                       {/* Area chart: applications over time */}
-                      <Card>
+                      <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
                         <CardHeader>
                           <CardTitle className="flex items-center gap-2"><PieIcon /> Applications Over Time</CardTitle>
                         </CardHeader>
@@ -520,7 +524,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                       </Card>
 
                       {/* Status line (solid) */}
-                      <Card>
+                        <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
                         <CardHeader>
                           <CardTitle className="flex items-center gap-2"><LineIcon /> Status Counts</CardTitle>
                         </CardHeader>
@@ -559,7 +563,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                       </Card>
 
                       {/* Pie: status mix */}
-                      <Card>
+                      <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
                         <CardHeader>
                           <CardTitle className="flex items-center gap-2"><BarIcon /> Status Mix</CardTitle>
                         </CardHeader>
@@ -606,7 +610,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                 <TabsContent value="funnel" className="mt-4">
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                      <Card>
+                        <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
                         <CardHeader>
                           <CardTitle>Experience (Dotted line + Bar)</CardTitle>
                         </CardHeader>
@@ -645,7 +649,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                         </CardContent>
                       </Card>
 
-                      <Card>
+                       <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
                         <CardHeader>
                           <CardTitle>Applications Timeline (Line Dotted)</CardTitle>
                         </CardHeader>
@@ -689,7 +693,7 @@ export default function JobPage({ token /* optional: pass if your API needs it *
                 {/* Skills tab */}
                 <TabsContent value="skills" className="mt-4">
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-                    <Card>
+                      <Card className="bg-gray-50 dark:bg-gray-950/70 border dark:border-gray-100/25">
                       <CardHeader>
                         <CardTitle>Top Skills (Bar)</CardTitle>
                       </CardHeader>
@@ -734,36 +738,94 @@ export default function JobPage({ token /* optional: pass if your API needs it *
       </AnimatePresence>
 
       {/* Applications list */}
-      <section>
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold">Applications</h2>
-          <div className="text-sm text-muted-foreground">{(isRecruiter ? applications.length : candidateApps.length)} visible</div>
-        </div>
+     <section>
+  <div className="flex items-center justify-between">
+    <h2 className="text-xl font-bold">Applications</h2>
+    <div className="text-sm text-muted-foreground">
+      {(isRecruiter ? applications.length : candidateApps.length)} visible
+    </div>
+  </div>
 
-        <div className="space-y-3 mt-3">
-          <AnimatePresence>
-            {(isRecruiter ? applications : candidateApps).map((app) => (
-              <motion.div key={app.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-                <ApplicationCard
-                  application={app}
-                  job={job}
-                  onDownload={() => {
-                    if (!app.resume) return toast.error("No resume");
-                    const link = document.createElement("a");
-                    link.href = app.resume;
-                    link.target = "_blank";
-                    link.rel = "noopener noreferrer";
-                    link.click();
-                  }}
-                  isCandidate={!isRecruiter}
-                  onStatusChange={(application, newStatus) => handleApplicationStatusChange(application, newStatus)}
-                  loadingStatus={statusUpdating}
+  <div className="space-y-3 mt-3">
+    <AnimatePresence mode="popLayout">
+      {(isRecruiter ? applications : candidateApps).length > 0 ? (
+        (isRecruiter ? applications : candidateApps).map((app) => (
+          <motion.div
+            key={app.id}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+          >
+            <ApplicationCard
+              application={app}
+              job={job}
+              onDownload={() => {
+                if (!app.resume) return toast.error("No resume");
+                const link = document.createElement("a");
+                link.href = app.resume;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.click();
+              }}
+              isCandidate={!isRecruiter}
+              onStatusChange={(application, newStatus) =>
+                handleApplicationStatusChange(application, newStatus)
+              }
+              loadingStatus={statusUpdating}
+            />
+          </motion.div>
+        ))
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="flex flex-col items-center justify-center py-20 px-6 text-center border overflow-hidden border-dashed border-gray-300 dark:border-gray-700 rounded-2xl bg-gray-50 dark:bg-gray-950/40 mt-6"
+        >
+          <div className="bg-gray-200 dark:bg-gray-800 p-6 rounded-full mb-6">
+           <CirclePlus className="h-10 w-10"/>
+          </div>
+
+          <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+            {isRecruiter
+              ? "No Applications Received Yet"
+              : "No Applications Submitted Yet"}
+          </h3>
+          <p className="text-gray-500 dark:text-gray-400 mt-2 mb-6 max-w-md">
+            {isRecruiter
+              ? "You haven’t received any job applications yet. Once candidates apply, they’ll appear here."
+              : "You haven’t applied to any jobs yet. Start exploring opportunities today!"}
+          </p>
+
+          {!isRecruiter && (
+            <a
+              href="/jobs"
+              className="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-gray-200 px-4 py-2 rounded-lg transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 3h18M9 3v18m6-18v18M4.5 21h15"
                 />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-      </section>
+              </svg>
+              Browse Jobs
+            </a>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+</section>
+
     </div>
   );
 }

@@ -43,23 +43,28 @@ const JobCard = ({
     data: savedJob,
     fn: fnSavedJob,
   } = useFetch(saveJob);
+  
 
   // 🔄 Toggle Save/Unsave Job
-  const handleSaveJob = async () => {
-    try {
-      setSaved((prev) => !prev); // Optimistic UI update
+const handleSaveJob = async () => {
+  const newSaved = !saved;
+  setSaved(newSaved); // optimistic UI update
 
-      await fnSavedJob({
-        user_id: user.id,
-        job_id: job.id,
-      });
+  try {
+    const result = await fnSavedJob({
+      user_id: user.id,
+      job_id: job.id,
+    });
 
-      onJobAction();
-    } catch (error) {
-      console.error("Error saving job:", error);
-      setSaved(saved); // revert state on error
-    }
-  };
+    // Re-sync with DB status (in case something failed)
+    if (result?.status === "saved") setSaved(true);
+    else if (result?.status === "unsaved") setSaved(false);
+  } catch (err) {
+    console.error("Error saving job:", err);
+    setSaved(!newSaved); // revert on error
+  }
+};
+
 
   // 🗑️ Delete Job (Recruiter only)
   const handleDeleteJob = async () => {
@@ -68,9 +73,12 @@ const JobCard = ({
   };
 
   // Update local saved state when API returns
-  useEffect(() => {
-    if (savedJob !== undefined) setSaved(savedJob?.length > 0);
-  }, [savedJob]);
+ useEffect(() => {
+  if (!savedJob) return;
+  if (savedJob.status === "saved") setSaved(true);
+  if (savedJob.status === "unsaved") setSaved(false);
+}, [savedJob]);
+
 
   return (
     <motion.div
@@ -88,7 +96,7 @@ const JobCard = ({
           rounded-2xl shadow-md transition-all duration-300 
           h-full w-full
           bg-white/70 text-gray-800 
-          dark:bg-gray-900/60 dark:text-gray-100
+          dark:bg-gray-950 dark:text-gray-100
           dark:border-white/30
         "
       >

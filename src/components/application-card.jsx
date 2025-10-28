@@ -40,6 +40,7 @@ const ApplicationCard = ({ application, job, isCandidate = false }) => {
     { job_id: application.job_id }
   );
 
+
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = application?.resume;
@@ -99,7 +100,7 @@ const ApplicationCard = ({ application, job, isCandidate = false }) => {
         className={`
           px-8 shadow-md hover:shadow-xl transition-all border 
           bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 border-gray-200 
-          dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 dark:border-gray-700
+          dark:from-gray-950/50 dark:to-gray-950 dark:text-gray-100 dark:border-gray-100/25
         `}
       >
         {loadingHiringStatus && <BarLoader width={"100%"} color="#60a5fa" />}

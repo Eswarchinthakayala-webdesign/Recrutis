@@ -13,11 +13,7 @@ const MyJobs = () => {
 
   return (
     <div className="overflow-hidden">
-      <TextShimmer className="px-1 gradient-title font-extrabold text-4xl sm:text-7xl flex items-center justify-center pb-8">
-        {user?.unsafeMetadata?.role === "candidate"
-          ? "My Applications"
-          : ""}
-      </TextShimmer>
+    
       {user?.unsafeMetadata?.role === "candidate" ? (
         <CreatedApplications />
       ) : (

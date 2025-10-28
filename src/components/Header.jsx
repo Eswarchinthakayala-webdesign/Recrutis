@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import {
   SignedIn,
   SignedOut,
@@ -8,36 +8,49 @@ import {
   SignUp,
   useUser,
 } from "@clerk/clerk-react";
+import {
+  Home,
+  BriefcaseBusiness,
+  Heart,
+  LogIn,
+  PenBox,
+  UserPlus,
+  User,
+  Menu,
+  X,
+} from "lucide-react";
 import { Button } from "./ui/button";
-import { BriefcaseBusiness, Heart, LogIn, PenBox, UserPlus } from "lucide-react";
 import { ModeToggle } from "./modeToggle";
 import { useTheme } from "./theme-provider";
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
-  const [mode, setMode] = useState("sign-in"); // "sign-in" | "sign-up"
+  const [mode, setMode] = useState("sign-in");
   const [search, setSearch] = useSearchParams();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useUser();
-    const { theme } = useTheme();
+  const { theme } = useTheme();
+  const location = useLocation();
 
-  // Determine if dark mode is active
-  const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-  // Check URL params to open modal automatically
-useEffect(() => {
-  // Support both ?auth=sign-in and ?sign-in=true patterns
-  const authParam = search.get("auth");
-  const signInParam = search.get("sign-in");
-  const signUpParam = search.get("sign-up");
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-  if (authParam === "sign-in" || signInParam === "true") {
-    setMode("sign-in");
-    setShowModal(true);
-  } else if (authParam === "sign-up" || signUpParam === "true") {
-    setMode("sign-up");
-    setShowModal(true);
-  }
-}, [search]);
+  // handle modal open via query param
+  useEffect(() => {
+    const authParam = search.get("auth");
+    const signInParam = search.get("sign-in");
+    const signUpParam = search.get("sign-up");
 
+    if (authParam === "sign-in" || signInParam === "true") {
+      setMode("sign-in");
+      setShowModal(true);
+    } else if (authParam === "sign-up" || signUpParam === "true") {
+      setMode("sign-up");
+      setShowModal(true);
+    }
+  }, [search]);
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -48,83 +61,189 @@ useEffect(() => {
 
   return (
     <>
-      <nav className="py-4 flex justify-between px-4 items-center">
-        <Link to="/">
-          <img
-            src="/logo.png"
-            className={`h-14 sm:h-18 lg:h-20 ${isDark ? "invert brightness-10" : "invert brightness-1000"}`}
-            alt="Hirrd Logo"
-          />
-        </Link>
+      {/* Sticky Header */}
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-800 backdrop-blur-md bg-gray-50/80 dark:bg-gray-950 shadow-sm">
+        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-3">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src="/logo.png"
+              alt="Logo"
+              className={`h-10 sm:h-12 ${
+                isDark ? "invert brightness-0" : "brightness-0"
+              }`}
+            />
+          </Link>
 
-        <div className="flex gap-2 items-center">
-          <ModeToggle />
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center gap-3">
+            <ModeToggle />
 
-          <SignedOut>
-            <Button
-              variant="outline"
-              className="cursor-pointer bg-black text-white dark:bg-white hover:bg-zinc-800 hover:text-white dark:text-black dark:hover:bg-gray-100"
-              onClick={() => {
-                setMode("sign-in"); // default to sign-in for existing users
-                setShowModal(true);
-              }}
+            <SignedOut>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-1 bg-gray-800 text-white dark:bg-gray-100 dark:text-gray-800 hover:bg-gray-700 dark:hover:bg-gray-200 transition"
+                onClick={() => {
+                  setMode("sign-in");
+                  setShowModal(true);
+                }}
+              >
+                <LogIn size={18} />
+                <span>Sign In</span>
+              </Button>
+
+              <Button
+                variant="outline"
+                className="flex items-center gap-1 border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                onClick={() => {
+                  setMode("sign-up");
+                  setShowModal(true);
+                }}
+              >
+                <UserPlus size={18} />
+                <span>Sign Up</span>
+              </Button>
+            </SignedOut>
+
+            <SignedIn>
+              {user?.unsafeMetadata?.role === "recruiter" && (
+                <Link to="/post-job">
+                  <Button className="flex items-center gap-1 bg-red-700 text-white hover:bg-red-600 transition">
+                    <PenBox size={18} />
+                    <span>Post a Job</span>
+                  </Button>
+                </Link>
+              )}
+
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-10 h-10",
+                  },
+                }}
+              >
+                <UserButton.MenuItems>
+                  <UserButton.Link
+                    label="My Jobs"
+                    labelIcon={<BriefcaseBusiness size={15} />}
+                    href="/my-jobs"
+                  />
+                  <UserButton.Link
+                    label="Saved Jobs"
+                    labelIcon={<Heart size={15} />}
+                    href="/saved-jobs"
+                  />
+                  <UserButton.Action label="manageAccount" />
+                </UserButton.MenuItems>
+              </UserButton>
+            </SignedIn>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            <ModeToggle />
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-800 dark:text-gray-100"
             >
-              
-             <LogIn size={20} />
-      <span className="hidden sm:flex">Sign In</span>
-            </Button>
-
-            <Button
-              variant="outline"
-              className=" bg-neutral-700 text-gray-200 cursor-pointer hover:bg-zinc-900 hover:text-white dark:bg-neutral-200  dark:text-zinc-800  dark:hover:bg-gray-300"
-              onClick={() => {
-                setMode("sign-up"); // sign-up for new users
-                setShowModal(true);
-              }}
-            >
-              <UserPlus size={20} />
-      <span className="hidden sm:flex">Sign Up</span>
-            </Button>
-          </SignedOut>
-
-          <SignedIn>
-            {user?.unsafeMetadata?.role === "recruiter" && (
-              <Link to="/post-job">
-                <Button  className="bg-red-700 dark:text-gray-300 hover:bg-red-600 text-white cursor-pointer flex items-center">
-                  <PenBox size={20} className="" />
-                 <span className="hidden sm:flex"> Post a Job</span>
-                </Button>
-              </Link>
-            )}
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: "w-10 h-10",
-                },
-              }}
-            >
-              <UserButton.MenuItems>
-                <UserButton.Link
-                  label="My Jobs"
-                  labelIcon={<BriefcaseBusiness size={15} />}
-                  href="/my-jobs"
-                />
-                <UserButton.Link
-                  label="Saved Jobs"
-                  labelIcon={<Heart size={15} />}
-                  href="/saved-jobs"
-                />
-                <UserButton.Action label="manageAccount" />
-              </UserButton.MenuItems>
-            </UserButton>
-          </SignedIn>
+              {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 p-4 flex flex-col gap-2">
+            <SignedOut>
+              <Button
+                onClick={() => {
+                  setMode("sign-in");
+                  setShowModal(true);
+                }}
+                className="bg-gray-800 text-white dark:bg-gray-100 dark:text-gray-800"
+              >
+                <LogIn size={18} /> Sign In
+              </Button>
+              <Button
+                onClick={() => {
+                  setMode("sign-up");
+                  setShowModal(true);
+                }}
+                variant="outline"
+              >
+                <UserPlus size={18} /> Sign Up
+              </Button>
+            </SignedOut>
+
+            <SignedIn>
+              {user?.unsafeMetadata?.role === "recruiter" && (
+                <Link to="/post-job">
+                  <Button className="bg-red-700 text-white hover:bg-red-600 w-full">
+                    <PenBox size={18} /> Post a Job
+                  </Button>
+                </Link>
+              )}
+            </SignedIn>
+          </div>
+        )}
       </nav>
 
-      {/* Modal Overlay */}
+      {/* Mobile Quick Action Bar */}
+      <SignedIn>
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-gray-100 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700 flex justify-around py-2 md:hidden">
+          <Link
+            to="/"
+            className={`flex flex-col items-center ${
+              location.pathname === "/" ? "text-red-600" : "text-gray-500"
+            }`}
+          >
+            <Home size={22} />
+            <span className="text-xs">Home</span>
+          </Link>
+          <Link
+            to="/jobs"
+            className={`flex flex-col items-center ${
+              location.pathname === "/jobs" ? "text-red-600" : "text-gray-500"
+            }`}
+          >
+            <BriefcaseBusiness size={22} />
+            <span className="text-xs">Jobs</span>
+          </Link>
+          <Link
+            to="/saved-jobs"
+            className={`flex flex-col items-center ${
+              location.pathname === "/saved-jobs"
+                ? "text-red-600"
+                : "text-gray-500"
+            }`}
+          >
+            <Heart size={22} />
+            <span className="text-xs">Saved</span>
+          </Link>
+         <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-10 h-10",
+                  },
+                }}
+              >
+                <UserButton.MenuItems>
+                  <UserButton.Link
+                    label="My Jobs"
+                    labelIcon={<BriefcaseBusiness size={15} />}
+                    href="/my-jobs"
+                  />
+                
+                  <UserButton.Action label="manageAccount" />
+                </UserButton.MenuItems>
+              </UserButton>
+        </div>
+      </SignedIn>
+
+      {/* Modal */}
       {showModal && (
         <div
-          className="fixed inset-0 flex items-center justify-center z-50 bg-black/50"
+          className="fixed inset-0 flex items-center justify-center z-[999] bg-black/50"
           onClick={handleOverlayClick}
         >
           {mode === "sign-in" ? (
@@ -146,6 +265,7 @@ useEffect(() => {
           )}
         </div>
       )}
+      <div className="sm:py-10 py-10"></div>
     </>
   );
 };

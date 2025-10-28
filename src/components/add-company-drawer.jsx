@@ -105,8 +105,8 @@ const AddCompanyDrawer = ({ fetchCompanies }) => {
         className="
           backdrop-blur-xl 
           bg-gradient-to-b from-white to-white
-          dark:from-gray-900/80 dark:to-gray-800/60
-          border-t border-gray-400/40 dark:border-gray-700/40
+          dark:from-gray-950 dark:to-gray-950/80
+          border-t border-gray-400/40 dark:border-gray-100/60
           shadow-2xl rounded-t-3xl
           p-6 sm:p-8 
           transition-all duration-700
